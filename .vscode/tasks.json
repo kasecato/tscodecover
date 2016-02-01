@@ -1,0 +1,33 @@
+{
+    "version": "0.1.0",
+    "command": "npm",
+    "isShellCommand": true,
+    "showOutput": "always",
+    "args": ["run"],
+    "tasks": [
+        {
+            "taskName": "clean",
+            "suppressTaskName": false,
+            "args": [],
+            "problemMatcher": "$tsc"
+        },
+        {
+            "taskName": "build",
+            "suppressTaskName": false,
+            "args": [],
+            "problemMatcher": "$tsc"
+        },
+        {
+            "taskName": "test",
+            "suppressTaskName": true,
+            "args": ["coverage"]
+        },
+        {
+            "taskName": "watch",
+            "suppressTaskName": true,
+            "args": ["watch", "--loglevel", "silent"],
+            "isWatching": true,
+            "problemMatcher": "$tsc-watch"
+        }
+    ]
+}

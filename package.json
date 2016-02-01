@@ -1,0 +1,31 @@
+{
+    "name": "tscodecover",
+    "version": "0.1.0",
+    "dependencies": {
+    },
+    "devDependencies": {
+        "typescript": "^1.7.5",
+        "vscode": "^0.10.7",
+        "tslint": "^3.3.0",
+        "istanbul": "^0.4.2"
+    },
+    "scripts": {
+        "clean": "rm -rf out",
+        "compile": "node ./node_modules/vscode/bin/compile -p ./",
+        "watch": "node ./node_modules/vscode/bin/compile -watch -p ./",
+        "coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report none -- -R spec --ui tdd ./out/test/**/*.js",
+
+        "prebuild": "npm run clean",
+        "build": "npm run compile",
+        "postbuild": "npm run coverage"
+    },
+    "license": "MIT",
+    "homepage": "https://github.com/k--kato/tscodecover#readme",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/k--kato/tscodecover"
+    },
+    "bugs": {
+        "url": "https://github.com/k--kato/tscodecover/issues"
+    }
+}
