@@ -7,6 +7,7 @@
         "typescript": "^1.7.5",
         "vscode": "^0.10.7",
         "tslint": "^3.3.0",
+        "mocha": "^2.4.5",
         "istanbul": "^0.4.2"
     },
     "scripts": {
