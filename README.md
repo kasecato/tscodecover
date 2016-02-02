@@ -1,30 +1,30 @@
-# TypeScript のコード カバレッジを Visual Studio Code で可視化する
+# TypeScript / Javascript のコード カバレッジを Visual Studio Code で可視化する
 
-　TypeScript のプロジェクトで，単体テスト コードが実行された／実行されていないコードを
-ソース コード エディター上に色分け表示（カバレッジ ハイライト）できれば，単体テストの消化効率をもっと上げられるのに，と思うことがあります。
+　TypeScript / Javascript のプロジェクトで，単体テスト コードが実行された／実行されていないコードをソース コード エディター上に色分け表示（カバレッジ ハイライト）できれば，単体テストの消化効率をもっと上げられるのに，と思うことがあります。
 
-　本稿では，TypeScript のエディターに Visual Studio Code (VS Code) を使い，コード カバレッジを VS Code 上で可視化する方法を解説します。
+　本稿では，TypeScript / Javascript のエディターに Visual Studio Code (VS Code) を使い，コード カバレッジを VS Code 上で可視化する方法を解説します。
 
-![Code Cover](images/codecover.gif)
+![codecover.gif](https://raw.githubusercontent.com/k--kato/tscodecover/master/images/codecover.gif)
 
 
 ## Code Cover
 
-　VS Code でコード ハイライトするには，[Bradley Meck](https://github.com/bmeck) 氏 (Node.js コミッター) 制作
-の "[Code Cover](https://github.com/bmeck/vscode-code-cover)" を使用します。
+　VS Code でカバレッジ ハイライトするには，[Bradley Meck](https://github.com/bmeck) 氏 (Node.js コミッター) 制作の "[Code Cover](https://github.com/bmeck/vscode-code-cover)" を使用します。
 
-[![Code Cover](images/code-cover.png)](https://marketplace.visualstudio.com/items?itemName=bradleymeck.codecover)
+![code-cover.png](https://qiita-image-store.s3.amazonaws.com/0/67778/1625cacb-ced1-6f16-1c8c-5afe98230460.png)
 
-　Code Cover はシンプルな設定ファイル (coverageconfig.json) ひとつで動作する素晴らしい VS Code Extension ですが，
-日本語での紹介記事はもちろん，英語での紹介記事も見つからないのが現状です。
-本稿をきっかけに少しでも多くの開発者に知って（使って）いただければ幸いです。
+　Code Cover はシンプルな設定ファイル (coverageconfig.json) ひとつで動作する素晴らしい VS Code Extension ですが，日本語での紹介記事はもちろん，英語での紹介記事も見つからないのが現状です。本稿をきっかけに少しでも多くの開発者に知って（使って）いただければ幸いです。
 
 
 ### クイック スタート
 
-　TypeScript のカバレッジ ハイライトをサポートしたサンプルを GitHub のリポジトリに作成しました。Code Cover の動作確認にご利用ください。
+　TypeScript 版のカバレッジ ハイライトをサポートしたサンプル プロジェクトを GitHub のリポジトリに作成しました。Code Cover の動作確認にご利用ください。
 
-　Github, "tscodecover", https://github.com/k--kato/tscodecover.git
+　†TypeScript, "tscodecover", https://github.com/k--kato/tscodecover.git
+
+　Javascript Babel ES2015 版のカバレッジ ハイライトは Bradley Meck 氏がサンプル プロジェクトを作成しています。
+
+　‡Javascript Babel ES2015, "example",  https://github.com/bmeck/vscode-code-cover/tree/master/example
 
 ```bash
 git clone https://github.com/k--kato/tscodecover.git
@@ -33,20 +33,20 @@ npm install
 npm run build
 code .
 ```
-　下記 [Code Cover のインストール](#code-cover-のインストール) で Code Cover をインストールします。src/util/NumberUtil.ts を開くとカバレッジ ハイライトされています。
+　下記 [Code Cover のインストール](#code-cover-のインストール) で Code Cover をインストールします。src/util/NumberUtil.ts を開くとカバレッジ ハイライトされます。
 
 
 ### Code Cover のインストール
 
 1. VS Code のコマンド パレット を開きます Cmd-Shift-P (OSX) or Ctrl-Shift-P (Windows, Linux)
 1. `Extensions: Install Extension` を入力＆選択します
-1. `ext install codecover` を入力します （☁ マークを押下してインストールします）
-1. VS Code を再起動します（インストール完了メッセージが表示された後に，再起動を促すメッセージが表示されます）
+1. `ext install codecover` を入力します。☁ マークを押下してインストールします
+1. VS Code を再起動します。インストール完了メッセージが表示された後に，再起動を促すメッセージが表示されます
 
 
 ### TypeScript x Code Cover の構成例
 
-```bash
+```bash:プロジェクト構成
 tscodecover/
 ├── coverageconfig.json
 ├── package.json
@@ -59,11 +59,11 @@ tscodecover/
 |   ├── coverage.json
 |   └── lcov.info
 ├── src/
-│   └── Util/
-│       └── NumberUtil.ts
+│   └── Util/
+│       └── NumberUtil.ts
 ├── test/
-│   └── Util/
-│       └── NumberUtil.test.ts
+│   └── Util/
+│       └── NumberUtil.test.ts
 ├── out/
 └── typings/
     ├── node.d.ts
@@ -86,8 +86,7 @@ tscodecover/
 
 ### Code Cover の設定
 
-coverageconfig.json
-```json
+```json:coverageconfig.json
 {
     "coverage": ["./coverage/coverage.json"],
     "sourcemapped": ["./out/src/*/**.js"],
@@ -101,25 +100,25 @@ coverageconfig.json
 | coverage            | coverage.json または lcov.info を指定します    |
 | sourcemapped        | TypeScript の Sourcemap が出力されるフォルダを指定します |
 | automaticallyShow   | true: 自動でカバレッジをハイライトします <br>false: カバレッジをハイライトするには，ステータス バー `Coverage` をクリックするか，コマンド パレットから `Highlight code coverage` を実行する必要があります |
-| ignore              | ハイライトしないファイルを指定します            |
+| ignore              | ハイライトしたくないファイルを指定することができます |
 
 
 ### Code Cover に必要なパッケージ
 
-　Code Cover はコード カバレッジの情報 (coverage.json または lcov.info) を解析して VS Code 上にカバレッジ ハイライトするため，
-テスト コードのフレームワークと，カバレッジ出力をサポートするパッケージがそれぞれ必要となります。
+　Code Cover はコード カバレッジの情報 coverage.json または lcov.info ファイルを解析して VS Code 上にカバレッジ ハイライトします。そのため，テスト コードのフレームワークと，カバレッジ出力をサポートするパッケージがそれぞれ必要となります。
 
 | パッケージ                                           | 説明                                                   |
 |:---------------------------------------------------|:-------------------------------------------------------|
 | [mocha](https://github.com/mochajs/mocha)          | Javascript のテスト フレームワーク                         |
 | [istanbul](https://github.com/gotwarlost/istanbul) | カバレッジ情報を含む coverage.json や lcov.info を出力します |
 
- （※ coverage.json や lcov.info が出力されるのであれば，どの Javascript テスト フレームワークでも問題ありません）
+　coverage.json や lcov.info が出力されるのであれば，どの Javascript テスト フレームワークでも問題ありません。つまり，TypeScript だけではなく **Javascript のプロジェクトでも カバレッジ ハイライトが可能**です。
 
-　パッケージの依存関係を継続的に管理するために，インストールするパッケージは package.json に記述します。一度書けば，~~３０億のデバイスで~~どこでも実行できます。
+　今回は TypeScript を中心に解説しますが，**Babel ES2015 (a.k.a. ES6) でも，同じ手順でカバレッジ ハイライトが可能**です。
 
-package.json
-```json
+　パッケージは直接コマンドでインストールできますが，依存関係を継続的に管理するためにも，package.json で管理します。一度書けば，~~３０億のデバイスで~~どこでも実行できます。
+
+```json:package.json
 {
     "dependencies": {
     },
@@ -133,7 +132,7 @@ package.json
 }
 ```
 
-　パッケージのインストールは２つのワードで完了します。
+　package.json に記述したパッケージのインストールは２つのワードで完了します。
 
 ```bash
 npm install
@@ -147,8 +146,8 @@ npm install
 
 | 記述スタイル（インターフェイス）                                     | メソッド                                       |
 |:---------------------------------------------------------------|:--------------------------------------------|
-| [TDD](https://mochajs.org/#tdd) (Test-Driven Development)      | assert, describe(), context(), it(), before(), after(), beforeEach(), afterEach()  |
-| [BDD](https://mochajs.org/#bdd) (Behavior-Driven Development)  | should, suite(), test(), suiteSetup(), suiteTeardown(), setup(), teardown() |
+| [TDD](https://mochajs.org/#tdd) (Test-Driven Development)      | **assert**, describe(), context(), it(), before(), after(), beforeEach(), afterEach()  |
+| [BDD](https://mochajs.org/#bdd) (Behavior-Driven Development)  | **should**, suite(), test(), suiteSetup(), suiteTeardown(), setup(), teardown() |
 
 
 * TDD とは
@@ -163,12 +162,11 @@ npm install
 >BDDは開発の方法論です。プログラミング手法のTDDよりは、XPのような方法論に近いです。互いに視点の違う利害関係者を同じ土俵に乗せ、
 >同じものを評価し、同じ期待値を持つようにするための方法論です。利害関係者の価値観の相違に起因する問題がなければ、BDDを使う必要はないかもしれません。 - Dan North
 
-　Java の JUnit や C# の xUnit は（標準では）TDD スタイルのため，TDD 経験者は多いと思います。今回は（開発視点で） TDD スタイルを使用します。
+　Java の JUnit や C# の xUnit は標準では TDD スタイルのため，TDD 経験者は多いと思います。今回は開発視点で TDD スタイルを使用します。
 
 #### ソース コード
 
-src/util/NumberUtil.ts
-```typescript
+```ts:src/util/NumberUtil.ts
 export class NumberUtil {
 
     public static isOdd(n: number): boolean {
@@ -186,8 +184,7 @@ export class NumberUtil {
 
 #### テスト コード (TDD)
 
-test/util/NumberUtil.test.ts (TDD)
-```typescript
+```ts:test/util/NumberUtil.test.ts
 import * as assert from 'assert';
 import {NumberUtil} from '../../src/util/NumberUtil';
 
@@ -208,7 +205,7 @@ suite('NumberUtil Tests', () => {
 
 ```
 
-　Arrange （テスト データの準備），Act（テスト対象の実行），Assert（検証） は [AAA パターン](https://msdn.microsoft.com/ja-jp/library/hh694602.aspx)と呼ばれ，単体テストを記述する一般的な方法です。
+　Arrange （テスト データの準備），Act（テスト対象の実行），Assert（検証） は [AAA パターン](https://msdn.microsoft.com/ja-jp/library/hh694602.aspx)と呼ばれ，単体テストを記述する一般的な方法です。AAA は MSDN で紹介されているため，AAA スタイルの単体テスト コードを記述しているエンジニアは C#er の可能性が高いです。
 
 
 ### mocha x istanbul でカバレッジ出力
@@ -221,21 +218,19 @@ suite('NumberUtil Tests', () => {
 
 | 引数                                                                           | 説明                                         |
 |:-------------------------------------------------------------------------------|:--------------------------------------------|
-| [istanbul](https://github.com/gotwarlost/istanbul)                             | coverage.json または lcov.info を指定します    |
-| [cover](https://github.com/gotwarlost/istanbul#the-cover-command)              | TypeScript の Sourcemap が出力されるフォルダを指定します |
-| [_mocha](https://github.com/gotwarlost/istanbul/issues/44)                     | true: 自動でカバレッジをハイライトします <br>false: カバレッジをハイライトするには，ステータス バー `Coverage` をクリックするか，コマンド パレットから `Highlight code coverage` を実行する必要があります |
-| [--report none](https://github.com/gotwarlost/istanbul#multiple-process-usage) | istanbul はソース コードをカバレッジ ハイライトした html レポートを出力しますが，今回は coverage.json のみ必要なため，html レポート出力を `none` に設定します |
+| [istanbul](https://github.com/gotwarlost/istanbul)                             | カバレッジを出力するコマンドです |
+| [cover](https://github.com/gotwarlost/istanbul#the-cover-command)              | istanbul で coverage.json を出力するパラメーターです |
+| [_mocha](https://github.com/gotwarlost/istanbul/issues/44)                     | テスト コードを実行するコマンドです。`mocha` ではなく `_mocha` です |
+| [--report none](https://github.com/gotwarlost/istanbul#multiple-process-usage) | istanbul はカバレッジ ハイライトした html レポートを出力しますが，今回は coverage.json のみ必要なため，html レポート出力機能を `none` に設定して，出力しないように設定します |
 | [-- --ui tdd](https://mochajs.org/#interfaces)                                 | はじめの `--` は 以降のパラメーターを `_mocha` に設定することを意味します <br>`--ui tdd` は TDD スタイルのテスト コードであることを意味します |
 | ./out/test/**/*.js                                                             | 実行するテスト コード を指定します    |
 
 
 ### package.json に依存関係とスクリプトをまとめる
 
-　カバレッジを出力するだけのために，istanbul の長大なコマンドを毎回思い出す必要はありません。
-package.json の `scripts` 項目にカバレッジを出力するコマンドを定義すれば，３ワードでカバレッジを取得できます。
+　カバレッジを出力するだけのために，istanbul の長大なコマンドを毎回思い出す必要はありません。package.json の `scripts` 項目にカバレッジを出力するコマンドを定義すれば，３ワードでカバレッジを取得できます。
 
-package.json
-```json
+```json:package.json
 {
     "dependencies": {
     },
@@ -265,19 +260,17 @@ package.json
 npm run build
 ```
 
-　`build` を実行すると，`prebuild`，`build`，`postbuild` の順にコマンドが実行されます。
+　`build` を実行すると，`prebuild`，`build`，`postbuild` の順にコマンドが実行されます。「[私がGulpとGruntを手放した理由](http://qiita.com/chuck0523/items/dafdbd19c12efd40e2de)」という記事で知りました。
 
 
 ### tasks.json で package.json のスクリプトを実行する
 
-　ターミナル（コマンド プロンプト）で毎回 `npm run` コマンドを実行するのは面倒です。
+　ターミナル（コマンド プロンプト）で毎回 `npm run build` コマンドを実行するのはとても面倒です。
 
-　`.vscode/tasks.json` にタスクを定義すると，VS Code のコマンド パレットに `build` (Cmd-Shift-B (OSX) or Ctrl-Shift-B (Windows, Linux)) や `test` (Cmd-Shift-T (OSX) or Ctrl-Shift-T (Windows, Linux)) と
-入力するだけで，package.json の `scripts` に定義したスクリプトを VS Code 上で実行できます。素晴しいです。
+　`.vscode/tasks.json` にタスクを定義すると，VS Code のコマンド パレットに `build` (Cmd-Shift-B (OSX) or Ctrl-Shift-B (Windows, Linux)) や `test` (Cmd-Shift-T (OSX) or Ctrl-Shift-T (Windows, Linux)) と入力するだけで，package.json の スクリプトを VS Code 上で実行できます。素晴しいです。
 
 
-.vscode/tasks.json
-```json
+```json:package.json
 {
     "version": "0.1.0",
     "command": "npm",
@@ -313,12 +306,15 @@ npm run build
 }
 ```
 
+1. VS Code のコマンド パレットを開く
+1. `build` と入力し `Tasks: Run Build Task` を選択します Cmd-Shift-B (OSX) or Ctrl-Shift-B (Windows, Linux)
+
 
 ### カバレッジ ハイライトの結果を確認する
 
-　TypeScript が VS Code 上でカバレッジ ハイライトできました。（もちろんトランスパイルされる前の TypeScript がハイライトされる）
+　TypeScript が VS Code 上でカバレッジ ハイライトできました。もちろんトランスパイルされる前の TypeScript がハイライトされます。
 
-![Code Cover Result](images/codecover_result.png)
+![codecover_result.png](https://qiita-image-store.s3.amazonaws.com/0/67778/27916f4c-c0f5-0fd5-17e4-d38fa0a63145.png)
 
 | 色                                                                                | 説明                           |
 |:----------------------------------------------------------------------------------|:-------------------------------|
@@ -334,6 +330,7 @@ npm run build
 * VS Code のカバレッジ ハイライトには Extension の Code Cover が必要であることがわかった
 * VS Code に Extension の Code Cover がインストールできた
 * Code Cover には coverage.json または lcov.info が必要であることがわかった
+* coverage.json または lcov.info があれば，TypeScript でも Babel ES2015 でもカバレッジ ハイライトが可能であることがわかった
 * mocha と istanbul を package.json でインストールできた
 * mocha で TDD のテスト コードを書くことができた
 * mocha と istanbul で coverage.json が取得できた
@@ -347,14 +344,14 @@ npm run build
 
 　弊社の検収条件には，「単体テスト コードのコード カバレッジ 100% を満たすこと」と記載しておりますが，御社の納品物に単体テスト コードとカバレッジの成果物が含まれていないようです。
 
-　御社では TypeScript のプロジェクトで「コード カバレッジ」を計測していますでしょうか？
+　御社では TypeScript / Javascript のプロジェクトで「コード カバレッジ」を計測していますでしょうか？
 
 　速やかにご提出ください。
 
 
 ## Wikipedia vs. マーティン・ファウラー vs. ゴイコ・アジッチ
 
-　何のためのカバレッジ？
+　カバレッジの目的は何でしょうか？
 
 ### Wikipedia
 
@@ -401,19 +398,29 @@ npm run build
 　
 　**コードの変更量が多いコードや複雑度が高いコードのカバレッジを高めに設定する**
 
-　カバレッジ 100% のプロジェクト
 
 ## VS Code Extension とは
 
-　VS Code は "Extension"（機能拡張）がサポートされています。Go 言語，Python，Unity，PHP や Cordova（Android や iOS のデバイス上で）のデバッグ機能，
-eslint，tslint や hlint などの lint 機能，もちろん Vim スタイルのサポートも追加が可能となっています。「**VS Code は環境**」です。
-VS Code 拡張機能の一覧は [Visual Studio Marketplace (Preview)](https://marketplace.visualstudio.com/#VSCode) で確認できます。
+　VS Code は "Extension"（機能拡張）がサポートされています。Go 言語，Python，Unity，PHP や Cordova（Android や iOS のデバイス上で）のデバッグ機能，eslint，tslint や hlint などの lint 機能，もちろん Vim スタイルのサポートも追加が可能となっています。「**VS Code は環境**」です。VS Code 拡張機能の一覧は [Visual Studio Marketplace (Preview)](https://marketplace.visualstudio.com/#VSCode) で確認できます。
 
 
 ## Code Cover 以外の VS Code カバレッジ可視化ツール
 
 　VS Code にも有償のテスト ツールがあり，[Artem Govorov](http://dm.gl/) 氏が制作した ["Wallaby.js for Visual Studio Code"](https://marketplace.visualstudio.com/items?itemName=WallabyJs.wallaby-vscode) は，
 コードの修正で即時にテストの実行結果や実行／未実行を VS Code 上に色分け表示する機能があり，Code Cover より高機能です。
+
+# アンケート
+
+1. 何言語のカバレッジを取得していますか？
+1. カバレッジを取得するフレームワークは何ですか？
+1. IDE や エディターは何を使用していますか？
+1. カバレッジ ハイライトは使っていますか？
+1. カバレッジは何％を目標にしますか？
+1. カバレッジを何の指標に使っていますか？
+1. カバレッジを取得する理由は何ですか？
+1. テストコードは TDD ですか？ BDD ですか？ それ以外ですか？
+1. TDD や BDD を選択した理由は何ですか？
+1. カバレッジで CI をしていますか？
 
 
 # 参考ノート
