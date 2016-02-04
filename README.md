@@ -1,13 +1,13 @@
-# TypeScript / Javascript のコード カバレッジを Visual Studio Code で可視化する
+# Javascript / TypeScript のコード カバレッジを Visual Studio Code で可視化する
 
-　TypeScript / Javascript のプロジェクトで，単体テスト コードが実行された／実行されていないコードをソース コード エディター上に色分け表示（カバレッジ ハイライト）できれば，単体テストの消化効率をもっと上げられるのに，と思うことがあります。
+　Javascript や TypeScript のプロジェクトで，単体テスト コードが実行された／実行されていないコードをソース コード エディター上に色分け表示（カバレッジ ハイライト）できれば，単体テストの消化効率をもっと上げられるのに，と思うことがあります。
 
-　本稿では，TypeScript / Javascript のエディターに Visual Studio Code (VS Code) を使い，コード カバレッジを VS Code 上で可視化する方法を解説します。
+　本稿では，Javascript / TypeScript のエディターに Visual Studio Code (VS Code) を使い，コード カバレッジを VS Code 上で可視化する方法を解説します。
 
 ![codecover.gif](https://raw.githubusercontent.com/k--kato/tscodecover/master/images/codecover.gif)
 
 
-## Code Cover
+# Code Cover
 
 　VS Code でカバレッジ ハイライトするには，[Bradley Meck](https://github.com/bmeck) 氏 (Node.js コミッター) 制作の "[Code Cover](https://github.com/bmeck/vscode-code-cover)" を使用します。
 
@@ -16,15 +16,13 @@
 　Code Cover はシンプルな設定ファイル (coverageconfig.json) ひとつで動作する素晴らしい VS Code Extension ですが，日本語での紹介記事はもちろん，英語での紹介記事も見つからないのが現状です。本稿をきっかけに少しでも多くの開発者に知って（使って）いただければ幸いです。
 
 
-### クイック スタート
+## クイック スタート
 
-　TypeScript 版のカバレッジ ハイライトをサポートしたサンプル プロジェクトを GitHub のリポジトリに作成しました。Code Cover の動作確認にご利用ください。
+### TypeScript 版
+
+　TypeScript でカバレッジ ハイライトをサポートしたサンプル プロジェクトを GitHub のリポジトリに作成しました。Code Cover の動作確認にご利用ください。（Code Cover のインストールは後述の[Code Cover のインストール](#code-cover-のインストール)）を参照）
 
 　†TypeScript, "tscodecover", https://github.com/k--kato/tscodecover.git
-
-　Javascript Babel ES2015 版のカバレッジ ハイライトは Bradley Meck 氏がサンプル プロジェクトを作成しています。
-
-　‡Javascript Babel ES2015, "example",  https://github.com/bmeck/vscode-code-cover/tree/master/example
 
 ```bash
 git clone https://github.com/k--kato/tscodecover.git
@@ -33,10 +31,24 @@ npm install
 npm run build
 code .
 ```
-　下記 [Code Cover のインストール](#code-cover-のインストール) で Code Cover をインストールします。src/util/NumberUtil.ts を開くとカバレッジ ハイライトされます。
+
+### Javascript Bable ES2015 (ES6) 版
+
+　Javascript Babel ES2015 版のカバレッジ ハイライトは Bradley Meck 氏がサンプル プロジェクトを作成しています。
+
+　‡Javascript Babel ES2015, "example",  https://github.com/bmeck/vscode-code-cover/tree/master/example
+
+```bash
+git clone https://github.com/bmeck/vscode-code-cover.git
+cd vscode-code-cover/example/
+npm install
+npm run build
+npm run coverage
+code .
+```
 
 
-### Code Cover のインストール
+## Code Cover のインストール
 
 1. VS Code のコマンド パレット を開きます Cmd-Shift-P (OSX) or Ctrl-Shift-P (Windows, Linux)
 1. `Extensions: Install Extension` を入力＆選択します
@@ -44,7 +56,7 @@ code .
 1. VS Code を再起動します。インストール完了メッセージが表示された後に，再起動を促すメッセージが表示されます
 
 
-### TypeScript x Code Cover の構成例
+## TypeScript x Code Cover の構成例
 
 ```bash:プロジェクト構成
 tscodecover/
@@ -84,7 +96,7 @@ tscodecover/
 | out                                                                         | 実行コード                   | TypeScript が Javascript にトランスパイル＆出力されます |
 
 
-### Code Cover の設定
+## Code Cover の設定
 
 ```json:coverageconfig.json
 {
@@ -103,7 +115,7 @@ tscodecover/
 | ignore              | ハイライトしたくないファイルを指定することができます |
 
 
-### Code Cover に必要なパッケージ
+## Code Cover に必要なパッケージ
 
 　Code Cover はコード カバレッジの情報 coverage.json または lcov.info ファイルを解析して VS Code 上にカバレッジ ハイライトします。そのため，テスト コードのフレームワークと，カバレッジ出力をサポートするパッケージがそれぞれ必要となります。
 
@@ -139,7 +151,7 @@ npm install
 ```
 
 
-### TypeScript x mocha でテスト コードをはじめる
+## TypeScript x mocha でテスト コードをはじめる
 
 　mocha のテスト コードには大きく[５種類](https://mochajs.org/#interfaces)の記述スタイル（インターフェイス）があります。今回は代表的な２種類を紹介します。
 
@@ -182,7 +194,7 @@ export class NumberUtil {
 
 ```
 
-#### テスト コード (TDD)
+### テスト コード (TDD)
 
 ```ts:test/util/NumberUtil.test.ts
 import * as assert from 'assert';
@@ -208,7 +220,7 @@ suite('NumberUtil Tests', () => {
 　Arrange （テスト データの準備），Act（テスト対象の実行），Assert（検証） は [AAA パターン](https://msdn.microsoft.com/ja-jp/library/hh694602.aspx)と呼ばれ，単体テストを記述する一般的な方法です。AAA は MSDN で紹介されているため，AAA スタイルの単体テスト コードを記述しているエンジニアは C#er の可能性が高いです。
 
 
-### mocha x istanbul でカバレッジ出力
+## mocha x istanbul でカバレッジ出力
 
 　mocha と istanbul で coverage.json を出力します。
 
@@ -223,10 +235,10 @@ suite('NumberUtil Tests', () => {
 | [_mocha](https://github.com/gotwarlost/istanbul/issues/44)                     | テスト コードを実行するコマンドです。`mocha` ではなく `_mocha` です |
 | [--report none](https://github.com/gotwarlost/istanbul#multiple-process-usage) | istanbul はカバレッジ ハイライトした html レポートを出力しますが，今回は coverage.json のみ必要なため，html レポート出力機能を `none` に設定して，出力しないように設定します |
 | [-- --ui tdd](https://mochajs.org/#interfaces)                                 | はじめの `--` は 以降のパラメーターを `_mocha` に設定することを意味します <br>`--ui tdd` は TDD スタイルのテスト コードであることを意味します |
-| ./out/test/**/*.js                                                             | 実行するテスト コード を指定します    |
+| ./out/test/\*\*/\*.js                                                             | 実行するテスト コード を指定します    |
 
 
-### package.json に依存関係とスクリプトをまとめる
+## package.json に依存関係とスクリプトをまとめる
 
 　カバレッジを出力するだけのために，istanbul の長大なコマンドを毎回思い出す必要はありません。package.json の `scripts` 項目にカバレッジを出力するコマンドを定義すれば，３ワードでカバレッジを取得できます。
 
@@ -263,11 +275,11 @@ npm run build
 　`build` を実行すると，`prebuild`，`build`，`postbuild` の順にコマンドが実行されます。「[私がGulpとGruntを手放した理由](http://qiita.com/chuck0523/items/dafdbd19c12efd40e2de)」という記事で知りました。
 
 
-### tasks.json で package.json のスクリプトを実行する
+## tasks.json で package.json のスクリプトを実行する
 
-　ターミナル（コマンド プロンプト）で毎回 `npm run build` コマンドを実行するのはとても面倒です。
+　カバレッジを取得するために，ターミナル（コマンド プロンプト）で毎回 `npm run build` コマンドを実行するのはとても面倒です。
 
-　`.vscode/tasks.json` にタスクを定義すると，VS Code のコマンド パレットに `build` (Cmd-Shift-B (OSX) or Ctrl-Shift-B (Windows, Linux)) や `test` (Cmd-Shift-T (OSX) or Ctrl-Shift-T (Windows, Linux)) と入力するだけで，package.json の スクリプトを VS Code 上で実行できます。素晴しいです。
+　`.vscode/tasks.json` にタスクを定義すると，VS Code のコマンド パレットに `build` や `test` と入力するだけで，package.json の スクリプトを VS Code 上で実行できます。素晴しいです。
 
 
 ```json:package.json
@@ -306,11 +318,17 @@ npm run build
 }
 ```
 
+　`build` タスクを実行するショートカット キーは `Cmd-Shift-B (OSX) or Ctrl-Shift-B (Windows, Linux)` です。コマンド パレットの場合は：
+
 1. VS Code のコマンド パレットを開く
-1. `build` と入力し `Tasks: Run Build Task` を選択します Cmd-Shift-B (OSX) or Ctrl-Shift-B (Windows, Linux)
+1. `build` と入力し `Tasks: Run Build Task` を選択
+
+です。
+
+　ちなみに，`test` タスクを実行するショートカット キーは `Cmd-Shift-T (OSX) or Ctrl-Shift-T (Windows, Linux)` です。
 
 
-### カバレッジ ハイライトの結果を確認する
+## カバレッジ ハイライトの結果を確認する
 
 　TypeScript が VS Code 上でカバレッジ ハイライトできました。もちろんトランスパイルされる前の TypeScript がハイライトされます。
 
@@ -322,7 +340,7 @@ npm run build
 | 黄 <span style="background-color:rgba(128,128,64,0.5)">if (n === undefined) {</span> | 未実行分岐 (Branch not covered) |
 | 無 return true;                                                                      | 実行済コード (Covered)           |
 
-　Code Cover の悪い点は，実行済コードがハイライトされないないことです。(TODO: 実行済みのコードがハイライトされるように Pull Request する）
+　Code Cover の悪い点は，実行済コードがハイライトされないないことです。(~~TODO: 実行済みのコードがハイライトされるように Pull Request する~~ 2016/02/05 [プルリク完了](https://github.com/bmeck/vscode-code-cover/pull/6/files)）
 
 
 # まとめ
@@ -398,16 +416,17 @@ npm run build
 　
 　**コードの変更量が多いコードや複雑度が高いコードのカバレッジを高めに設定する**
 
+　プロジェクトでカバレッジ一律 100% を求められたら，必ず関係者と納得がいくまで議論してみましょう。
 
 ## VS Code Extension とは
 
-　VS Code は "Extension"（機能拡張）がサポートされています。Go 言語，Python，Unity，PHP や Cordova（Android や iOS のデバイス上で）のデバッグ機能，eslint，tslint や hlint などの lint 機能，もちろん Vim スタイルのサポートも追加が可能となっています。「**VS Code は環境**」です。VS Code 拡張機能の一覧は [Visual Studio Marketplace (Preview)](https://marketplace.visualstudio.com/#VSCode) で確認できます。
+　VS Code は "Extension"（機能拡張）がサポートされています。Go 言語，Python，Unity，PHP や Cordova（Android や iOS のデバイス上で）のデバッグ機能，eslint，tslint や hlint などの lint 機能，もちろん Vim スタイルのサポートも追加が可能です。「**VS Code は環境**」です。VS Code 拡張機能の一覧は [Visual Studio Marketplace (Preview)](https://marketplace.visualstudio.com/#VSCode) で確認できます。
 
 
 ## Code Cover 以外の VS Code カバレッジ可視化ツール
 
-　VS Code にも有償のテスト ツールがあり，[Artem Govorov](http://dm.gl/) 氏が制作した ["Wallaby.js for Visual Studio Code"](https://marketplace.visualstudio.com/items?itemName=WallabyJs.wallaby-vscode) は，
-コードの修正で即時にテストの実行結果や実行／未実行を VS Code 上に色分け表示する機能があり，Code Cover より高機能です。
+　VS Code にも有償のテスト ツールがあります。[Artem Govorov](http://dm.gl/) 氏が制作した ["Wallaby.js for Visual Studio Code"](https://marketplace.visualstudio.com/items?itemName=WallabyJs.wallaby-vscode) が高機能で，
+コードの修正で即時にテストの実行結果や実行／未実行を VS Code 上にカバレッジ ハイライトする機能があります。
 
 # アンケート
 
