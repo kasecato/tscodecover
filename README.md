@@ -4,7 +4,7 @@
 
 　本稿では，Javascript / TypeScript のエディターに Visual Studio Code (VS Code) を使い，コード カバレッジを VS Code 上で可視化する方法を解説します。
 
-![codecover.gif](https://raw.githubusercontent.com/k--kato/tscodecover/master/images/codecover.gif)
+![codecover.gif](https://raw.githubusercontent.com/kasecato/tscodecover/master/images/codecover.gif)
 
 
 # Code Cover
@@ -22,10 +22,10 @@
 
 　TypeScript でカバレッジ ハイライトをサポートしたサンプル プロジェクトを GitHub のリポジトリに作成しました。Code Cover の動作確認にご利用ください。（Code Cover のインストールは後述の[Code Cover のインストール](#code-cover-のインストール)）を参照）
 
-　†TypeScript, "tscodecover", https://github.com/k--kato/tscodecover.git
+　†TypeScript, "tscodecover", https://github.com/kasecato/tscodecover.git
 
 ```bash
-git clone https://github.com/k--kato/tscodecover.git
+git clone https://github.com/kasecato/tscodecover.git
 cd tscodecover
 npm install
 npm run build
@@ -76,10 +76,7 @@ tscodecover/
 ├── test/
 │   └── Util/
 │       └── NumberUtil.test.ts
-├── out/
-└── typings/
-    ├── node.d.ts
-    └── vscode-typings.d.ts
+└── out/
 ```
 
 | ファイル                                                                      | 役割                       | 説明             |
@@ -135,11 +132,13 @@ tscodecover/
     "dependencies": {
     },
     "devDependencies": {
-        "typescript": "^1.7.5",
-        "vscode": "^0.10.7",
-        "tslint": "^3.3.0",
-        "mocha": "^2.4.5",
-        "istanbul": "^0.4.2"
+        "typescript": "^3.7.2",
+        "vscode": "^1.1.36",
+        "tslint": "^5.20.1",
+        "mocha": "^6.2.2",
+        "istanbul": "^0.4.5",
+        "@types/node": "^12.12.8",
+        "@types/mocha": "^5.2.7"
     }
 }
 ```
@@ -247,17 +246,19 @@ suite('NumberUtil Tests', () => {
     "dependencies": {
     },
     "devDependencies": {
-        "typescript": "^1.7.5",
-        "vscode": "^0.10.7",
-        "tslint": "^3.3.0",
-        "mocha": "^2.4.5",
-        "istanbul": "^0.4.2"
+        "typescript": "^3.7.2",
+        "vscode": "^1.1.36",
+        "tslint": "^5.20.1",
+        "mocha": "^6.2.2",
+        "istanbul": "^0.4.5",
+        "@types/node": "^12.12.8",
+        "@types/mocha": "^5.2.7"
     },
     "scripts": {
         "clean": "rm -rf out",
-        "compile": "node ./node_modules/vscode/bin/compile -p ./",
-        "watch": "node ./node_modules/vscode/bin/compile -watch -p ./",
-        "coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report none ./out/test/**/*.js",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report none -- --ui tdd ./out/test/**/*.js",
 
         "prebuild": "npm run clean",
         "build": "npm run compile",
@@ -284,35 +285,20 @@ npm run build
 
 ```json:package.json
 {
-    "version": "0.1.0",
-    "command": "npm",
-    "isShellCommand": true,
-    "showOutput": "always",
-    "args": ["run"],
+    "version": "2.0.0",
     "tasks": [
         {
-            "taskName": "clean",
-            "suppressTaskName": false,
-            "args": [],
-            "problemMatcher": "$tsc"
+            "type": "npm",
+            "script": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
-            "taskName": "build",
-            "suppressTaskName": false,
-            "args": [],
-            "problemMatcher": "$tsc"
-        },
-        {
-            "taskName": "test",
-            "suppressTaskName": true,
-            "args": ["coverage"]
-        },
-        {
-            "taskName": "watch",
-            "suppressTaskName": true,
-            "args": ["watch", "--loglevel", "silent"],
-            "isWatching": true,
-            "problemMatcher": "$tsc-watch"
+            "type": "npm",
+            "script": "coverage",
+            "group": "test"
         }
     ]
 }

@@ -1,32 +1,32 @@
 {
     "name": "tscodecover",
     "version": "0.1.0",
-    "dependencies": {
-    },
+    "dependencies": {},
     "devDependencies": {
-        "typescript": "^1.7.5",
-        "vscode": "^0.10.7",
-        "tslint": "^3.3.0",
-        "mocha": "^2.4.5",
-        "istanbul": "^0.4.2"
+        "typescript": "^3.7.2",
+        "vscode": "^1.1.36",
+        "tslint": "^5.20.1",
+        "mocha": "^6.2.2",
+        "istanbul": "^0.4.5",
+        "@types/node": "^12.12.8",
+        "@types/mocha": "^5.2.7"
     },
     "scripts": {
         "clean": "rm -rf out",
-        "compile": "node ./node_modules/vscode/bin/compile -p ./",
-        "watch": "node ./node_modules/vscode/bin/compile -watch -p ./",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
         "coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report none -- --ui tdd ./out/test/**/*.js",
-
         "prebuild": "npm run clean",
         "build": "npm run compile",
         "postbuild": "npm run coverage"
     },
     "license": "MIT",
-    "homepage": "https://github.com/k--kato/tscodecover#readme",
+    "homepage": "https://github.com/kasecato/tscodecover#readme",
     "repository": {
         "type": "git",
-        "url": "https://github.com/k--kato/tscodecover"
+        "url": "https://github.com/kasecato/tscodecover"
     },
     "bugs": {
-        "url": "https://github.com/k--kato/tscodecover/issues"
+        "url": "https://github.com/kasecato/tscodecover/issues"
     }
 }
