@@ -60,10 +60,10 @@ code .
 
 ```bash:プロジェクト構成
 tscodecover/
+├── .eslintrc.json
 ├── coverageconfig.json
 ├── package.json
 ├── tsconfig.json
-├── tslint.json
 |
 ├── .vscode/
 |   └── tasks.json
@@ -79,47 +79,47 @@ tscodecover/
 └── out/
 ```
 
-| ファイル                                                                      | 役割                       | 説明             |
-|:----------------------------------------------------------------------------|:---------------------------|:----------------|
-| [coverageconfig.json](https://github.com/bmeck/vscode-code-cover)           | Code Cover 設定ファイル      | coverage.json または lcov.info を指定します |
-| [package.json](https://docs.npmjs.com/files/package.json)                   | npm パッケージ管理ファイル     | プロジェクトに必要なパッケージの依存関係やビルド スクリプトなどを設定します |
-| [tsconfig.json](https://github.com/Microsoft/TypeScript/wiki/tsconfig.json) | TypeScript 設定ファイル      | トランスパイルする ES のバージョンや Sourcemap の出力を設定します |
-| [tslint.json](http://palantir.github.io/tslint/rules/)                      | TSLint 設定ファイル          | TypeScript の文法を検証するルールを記載します |
-| [tasks.json](https://code.visualstudio.com/Docs/editor/tasks)               | VS Code タスク設定ファイル    | VS Code のコマンド パレットから build や test 等のコマンドを使えるように登録します |
-| coverage.json                                                               | カバレッジ結果               | Code Cover が参照します |
-| lcov.info                                                                   | カバレッジ結果               | Code Cover が参照します |
-| [src](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)      | ソース コード                | ソース コード TypeScript で記述します |
-| [test](http://mochajs.org/)                                                 | 単体テスト コード             | テスト コードを TypeScript (mocha) で記述します |
-| out                                                                         | 実行コード                   | TypeScript が Javascript にトランスパイル＆出力されます |
+| ファイル                                                                    | 役割                       | 説明                                                                               |
+|:----------------------------------------------------------------------------|:---------------------------|:-----------------------------------------------------------------------------------|
+| [.eslintrc.json](https://eslint.org/)                                       | ESLint 設定ファイル        | TypeScript の文法を検証するルールを記載します                                      |
+| [coverageconfig.json](https://github.com/bmeck/vscode-code-cover)           | Code Cover 設定ファイル    | `coverage.json` または `lcov.info` を指定します                                    |
+| [package.json](https://docs.npmjs.com/files/package.json)                   | npm パッケージ管理ファイル | プロジェクトに必要なパッケージの依存関係やビルド スクリプトなどを設定します        |
+| [tsconfig.json](https://github.com/Microsoft/TypeScript/wiki/tsconfig.json) | TypeScript 設定ファイル    | トランスパイルする ES のバージョンや Sourcemap の出力を設定します                  |
+| [tasks.json](https://code.visualstudio.com/Docs/editor/tasks)               | VS Code タスク設定ファイル | VS Code のコマンド パレットから build や test 等のコマンドを使えるように登録します |
+| coverage.json                                                               | カバレッジ結果             | Code Cover が参照します                                                            |
+| lcov.info                                                                   | カバレッジ結果             | Code Cover が参照します                                                            |
+| [src](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)      | ソース コード              | ソース コード TypeScript で記述します                                              |
+| [test](http://mochajs.org/)                                                 | 単体テスト コード          | テスト コードを TypeScript (mocha) で記述します                                    |
+| out                                                                         | 実行コード                 | TypeScript が Javascript にトランスパイル＆出力されます                            |
 
 
 ## Code Cover の設定
 
 ```json:coverageconfig.json
 {
-    "coverage": ["./coverage/coverage.json"],
+    "coverage": ["./coverage/lcov.info"],
     "sourcemapped": ["./out/src/*/**.js"],
     "automaticallyShow": true,
     "ignore": ["*.json"]
 }
 ```
 
-| 設定項目             | 説明                                         |
-|:--------------------|:--------------------------------------------|
-| coverage            | coverage.json または lcov.info を指定します    |
-| sourcemapped        | TypeScript の Sourcemap が出力されるフォルダを指定します |
-| automaticallyShow   | true: 自動でカバレッジをハイライトします <br>false: カバレッジをハイライトするには，ステータス バー `Coverage` をクリックするか，コマンド パレットから `Highlight code coverage` を実行する必要があります |
-| ignore              | ハイライトしたくないファイルを指定することができます |
+| 設定項目          | 説明                                                                                                                                                                                                      |
+|:------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| coverage          | coverage.json または lcov.info を指定します                                                                                                                                                               |
+| sourcemapped      | TypeScript の Sourcemap が出力されるフォルダを指定します                                                                                                                                                  |
+| automaticallyShow | true: 自動でカバレッジをハイライトします <br>false: カバレッジをハイライトするには，ステータス バー `Coverage` をクリックするか，コマンド パレットから `Highlight code coverage` を実行する必要があります |
+| ignore            | ハイライトしたくないファイルを指定することができます                                                                                                                                                      |
 
 
 ## Code Cover に必要なパッケージ
 
 　Code Cover はコード カバレッジの情報 coverage.json または lcov.info ファイルを解析して VS Code 上にカバレッジ ハイライトします。そのため，テスト コードのフレームワークと，カバレッジ出力をサポートするパッケージがそれぞれ必要となります。
 
-| パッケージ                                           | 説明                                                   |
-|:---------------------------------------------------|:-------------------------------------------------------|
-| [mocha](https://github.com/mochajs/mocha)          | Javascript のテスト フレームワーク                         |
-| [istanbul](https://github.com/gotwarlost/istanbul) | カバレッジ情報を含む coverage.json や lcov.info を出力します |
+| パッケージ                                | 説明                                                         |
+|:------------------------------------------|:-------------------------------------------------------------|
+| [mocha](https://github.com/mochajs/mocha) | Javascript のテスト フレームワーク                           |
+| [nyc](https://github.com/istanbuljs/nyc)  | カバレッジ情報を含む coverage.json や lcov.info を出力します |
 
 　coverage.json や lcov.info が出力されるのであれば，どの Javascript テスト フレームワークでも問題ありません。つまり，TypeScript だけではなく **Javascript のプロジェクトでも カバレッジ ハイライトが可能**です。
 
@@ -132,13 +132,12 @@ tscodecover/
     "dependencies": {
     },
     "devDependencies": {
-        "typescript": "^3.7.2",
-        "vscode": "^1.1.36",
-        "tslint": "^5.20.1",
-        "mocha": "^6.2.2",
-        "istanbul": "^0.4.5",
+        "@types/mocha": "^8.0.0",
         "@types/node": "^12.12.8",
-        "@types/mocha": "^5.2.7"
+        "eslint": "^7.5.0",
+        "mocha": "^8.0.1",
+        "nyc": "^15.1.0",
+        "typescript": "^3.9.7"
     }
 }
 ```
@@ -155,10 +154,10 @@ npm install
 　mocha のテスト コードには大きく[５種類](https://mochajs.org/#interfaces)の記述スタイル（インターフェイス）があります。今回は代表的な２種類を紹介します。
 
 
-| 記述スタイル（インターフェイス）                                     | メソッド                                       |
-|:---------------------------------------------------------------|:--------------------------------------------|
-| [TDD](https://mochajs.org/#tdd) (Test-Driven Development)      | **assert**, describe(), context(), it(), before(), after(), beforeEach(), afterEach()  |
-| [BDD](https://mochajs.org/#bdd) (Behavior-Driven Development)  | **should**, suite(), test(), suiteSetup(), suiteTeardown(), setup(), teardown() |
+| 記述スタイル（インターフェイス）                              | メソッド                                                                              |
+|:--------------------------------------------------------------|:--------------------------------------------------------------------------------------|
+| [TDD](https://mochajs.org/#tdd) (Test-Driven Development)     | **assert**, describe(), context(), it(), before(), after(), beforeEach(), afterEach() |
+| [BDD](https://mochajs.org/#bdd) (Behavior-Driven Development) | **should**, suite(), test(), suiteSetup(), suiteTeardown(), setup(), teardown()       |
 
 
 * TDD とは
@@ -224,43 +223,41 @@ suite('NumberUtil Tests', () => {
 　mocha と istanbul で coverage.json を出力します。
 
 ```bash
-./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report none -- --ui tdd ./out/test/**/*.js
+./node_modules/.bin/nyc --reporter=lcovonly -- ./node_modules/.bin/mocha --ui tdd ./out/test/**/*.js
 ```
 
-| 引数                                                                           | 説明                                         |
-|:-------------------------------------------------------------------------------|:--------------------------------------------|
-| [istanbul](https://github.com/gotwarlost/istanbul)                             | カバレッジを出力するコマンドです |
-| [cover](https://github.com/gotwarlost/istanbul#the-cover-command)              | istanbul で coverage.json を出力するパラメーターです |
-| [_mocha](https://github.com/gotwarlost/istanbul/issues/44)                     | テスト コードを実行するコマンドです。`mocha` ではなく `_mocha` です |
-| [--report none](https://github.com/gotwarlost/istanbul#multiple-process-usage) | istanbul はカバレッジ ハイライトした html レポートを出力しますが，今回は coverage.json のみ必要なため，html レポート出力機能を `none` に設定して，出力しないように設定します |
-| [-- --ui tdd](https://mochajs.org/#interfaces)                                 | はじめの `--` は 以降のパラメーターを `_mocha` に設定することを意味します <br>`--ui tdd` は TDD スタイルのテスト コードであることを意味します |
-| ./out/test/\*\*/\*.js                                                             | 実行するテスト コード を指定します    |
+| 引数                                                                                | 説明                                                            |
+|:------------------------------------------------------------------------------------|:----------------------------------------------------------------|
+| [nyc](https://github.com/istanbuljs/nyc)                                            | カバレッジを出力するコマンドです                                |
+| [--reporter=lcovonly](https://istanbul.js.org/docs/advanced/alternative-reporters/) | `nyc` で `lcov.info` のみ出力させます                           |
+| [mocha](https://mochajs.org/)                                                       | テスト コードを実行するコマンドです。                           |
+| [--ui tdd](https://mochajs.org/#interfaces)                                         | `--ui tdd` は TDD スタイルのテスト コードであることを意味します |
+| ./out/test/\*\*/\*.js                                                               | 実行するテスト コード を指定します                              |
 
 
 ## package.json に依存関係とスクリプトをまとめる
 
-　カバレッジを出力するだけのために，istanbul の長大なコマンドを毎回思い出す必要はありません。package.json の `scripts` 項目にカバレッジを出力するコマンドを定義すれば，３ワードでカバレッジを取得できます。
+　カバレッジを出力するだけのために，nyc の長大なコマンドを毎回思い出す必要はありません。package.json の `scripts` 項目にカバレッジを出力するコマンドを定義すれば，３ワードでカバレッジを取得できます。
 
 ```json:package.json
 {
-    "dependencies": {
-    },
+    "name": "tscodecover",
+    "version": "1.0.0",
+    "dependencies": {},
     "devDependencies": {
-        "typescript": "^3.7.2",
-        "vscode": "^1.1.36",
-        "tslint": "^5.20.1",
-        "mocha": "^6.2.2",
-        "istanbul": "^0.4.5",
+        "@types/mocha": "^8.0.0",
         "@types/node": "^12.12.8",
-        "@types/mocha": "^5.2.7"
+        "eslint": "^7.5.0",
+        "mocha": "^8.0.1",
+        "nyc": "^15.1.0",
+        "typescript": "^3.9.7"
     },
     "scripts": {
         "clean": "rm -rf out",
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
-        "coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report none -- --ui tdd ./out/test/**/*.js",
-
-        "prebuild": "npm run clean",
+        "test": "mocha --ui tdd ./out/test/**/*.js",
+        "coverage": "nyc --reporter=lcovonly npm run test",
         "build": "npm run compile",
         "postbuild": "npm run coverage"
     }
@@ -320,11 +317,11 @@ npm run build
 
 ![codecover_result.png](https://qiita-image-store.s3.amazonaws.com/0/67778/27916f4c-c0f5-0fd5-17e4-d38fa0a63145.png)
 
-| 色                                                                                | 説明                           |
-|:----------------------------------------------------------------------------------|:-------------------------------|
-| 赤 <span style="background-color:rgba(128,64,64,0.5)">return false;</span>           | 未実行コード (Line not covered)  |
+| 色                                                                                   | 説明                            |
+|:-------------------------------------------------------------------------------------|:--------------------------------|
+| 赤 <span style="background-color:rgba(128,64,64,0.5)">return false;</span>           | 未実行コード (Line not covered) |
 | 黄 <span style="background-color:rgba(128,128,64,0.5)">if (n === undefined) {</span> | 未実行分岐 (Branch not covered) |
-| 無 return true;                                                                      | 実行済コード (Covered)           |
+| 無 return true;                                                                      | 実行済コード (Covered)          |
 
 　Code Cover の悪い点は，実行済コードがハイライトされないないことです。(~~TODO: 実行済みのコードがハイライトされるように Pull Request する~~ 2016/02/05 [プルリク完了](https://github.com/bmeck/vscode-code-cover/pull/6/files)）
 
@@ -428,6 +425,13 @@ npm run build
 1. カバレッジで CI をしていますか？
 
 
+# 更新履歴
+
+## 2020/07/19
+- たまに本記事が見られているようなので，`istanbul` を `nyc` に移行しました
+
+> This module is no longer maintained, try this instead: npm i nyc Visit https://istanbul.js.org/integrations for other alternatives.
+
 # 参考ノート
 
 1. Wikipedia, 「コード網羅率」, https://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%BC%E3%83%89%E7%B6%B2%E7%BE%85%E7%8E%87
@@ -437,3 +441,5 @@ npm run build
 1. ＠IT Insider.NET, 「Visual Studio Codeでエクステンション機能を使ってみよう」, http://www.atmarkit.co.jp/ait/articles/1511/27/news029.html
 1. O'Reilly Japan, 『Making Software――エビデンスが変えるソフトウェア開発』, https://www.oreilly.co.jp/books/9784873115115/
 1. Qiita, 「[意訳]私がGulpとGruntを手放した理由」, http://qiita.com/chuck0523/items/dafdbd19c12efd40e2de
+1. GitHub, "Roadmap: TSLint -> ESLint #4534", https://github.com/palantir/tslint/issues/4534
+1. istanbul, "Tools That Integrate With Istanbul API's", https://istanbul.js.org/integrations/

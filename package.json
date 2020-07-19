@@ -1,22 +1,21 @@
 {
     "name": "tscodecover",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "dependencies": {},
     "devDependencies": {
-        "typescript": "^3.7.2",
-        "vscode": "^1.1.36",
-        "tslint": "^5.20.1",
-        "mocha": "^6.2.2",
-        "istanbul": "^0.4.5",
+        "@types/mocha": "^8.0.0",
         "@types/node": "^12.12.8",
-        "@types/mocha": "^5.2.7"
+        "eslint": "^7.5.0",
+        "mocha": "^8.0.1",
+        "nyc": "^15.1.0",
+        "typescript": "^3.9.7"
     },
     "scripts": {
         "clean": "rm -rf out",
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
-        "coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report none -- --ui tdd ./out/test/**/*.js",
-        "prebuild": "npm run clean",
+        "test": "mocha --ui tdd ./out/test/**/*.js",
+        "coverage": "nyc --reporter=lcovonly npm run test",
         "build": "npm run compile",
         "postbuild": "npm run coverage"
     },
