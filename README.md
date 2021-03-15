@@ -132,12 +132,12 @@ tscodecover/
     "dependencies": {
     },
     "devDependencies": {
-        "@types/mocha": "^8.0.0",
-        "@types/node": "^12.12.8",
-        "eslint": "^7.5.0",
-        "mocha": "^8.0.1",
+        "@types/mocha": "^8.2.1",
+        "@types/node": "^14.14.34",
+        "eslint": "^7.22.0",
+        "mocha": "^8.3.2",
         "nyc": "^15.1.0",
-        "typescript": "^3.9.7"
+        "typescript": "^4.2.3"
     }
 }
 ```
